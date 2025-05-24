@@ -1,0 +1,16 @@
+{
+	"CommonInfo":{
+		"crossplatform.projectType":"",
+		"project.ide.version":"5.0.11.100",
+		"current.select.product":"default",
+		"current.select.buildMode":""
+	},
+	"BuildOptions":{
+		"BUNDLE_NAME":"com.example.errorbook",
+		"SELECT_BUILD_MODE":"",
+		"BUILD_PATH":{
+			"OUTPUT_PATH":"E:\\OpenHarmony_Project_code\\errorBook\\build\\outputs\\default"
+		},
+		"SELECT_BUILD_PRODUCT":"default"
+	}
+}
