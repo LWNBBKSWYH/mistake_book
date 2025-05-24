@@ -4,6 +4,9 @@
     "pages/errorbook",
     "pages/like",
     "pages/home",
-    "pages/register"
+    "pages/register",
+    "pages/account",
+    "pages/createQuestion",
+    "pages/questionDetail"
   ]
 }

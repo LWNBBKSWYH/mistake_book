@@ -2,6 +2,7 @@
 import { router } from '@kit.ArkUI';
 import { promptAction } from '@kit.ArkUI';
 import http from '@ohos.net.http';
+import { apiusers }  from '../utils/net_config';
 interface HttpResponseData  {
   message?: string;
   error?: string;
@@ -21,7 +22,6 @@ struct RegisterPage {
   @State errorMessage: string = '';
 
   private httpRequest: http.HttpRequest = http.createHttp();
-  private apiUrl: string = 'http://10.151.39.48:8989/api/users'; // 替换为你的实际API地址
 
   // 处理注册逻辑
   async handleRegister() {
@@ -35,7 +35,7 @@ struct RegisterPage {
 
     try {
       const response = await this.httpRequest.request(
-        this.apiUrl+'/register',
+        apiusers.register,
         {
           method: http.RequestMethod.POST,
           header: {
@@ -127,7 +127,19 @@ struct RegisterPage {
           this.handleRegister();
         })
         .enabled(!this.isLoading);
-
+      // 返回登录按钮
+      Button('返回登录')
+        .width('90%')
+        .height(50)
+        .margin({ top: 10 })
+        .backgroundColor('#ffffff')
+        .fontColor('#0a59f7')
+        .borderColor('#0a59f7')
+        .borderWidth(1)
+        .onClick(() => {
+          router.back();
+        })
+        .enabled(!this.isLoading);
       // 加载指示器
       if (this.isLoading) {
         LoadingProgress()

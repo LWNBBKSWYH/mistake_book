@@ -1,7 +1,7 @@
 import { router } from '@kit.ArkUI';
 import { promptAction } from '@kit.ArkUI';
 import http from '@ohos.net.http';
-
+import { apiusers }  from '../utils/net_config';
 // 定义接口类型
 interface UserInfo {
   id: number;
@@ -18,17 +18,22 @@ interface HttpResponseData  {
 @Component
 struct Login {
   @StorageLink('login') login: boolean = false;
-  @State user: string = '';
+  @StorageLink('username') username: string = '';
   @State password: string = '';
   @State errorMessage: string = '';
-  @State isLoading: boolean = false;
+  @StorageLink('isLoading') isLoading: boolean = false; // 使用AppStorage关联
   private httpRequest: http.HttpRequest = http.createHttp();
-  private apiUrl: string = 'http://10.151.39.48:8989/api/users';
+
   aboutToAppear(): void {
     if (this.login) {
       router.replaceUrl({
-        url: 'pages/errorbook'
+        url: 'pages/home'
       });
+    }else {
+      // 确保清除任何残留状态
+      this.username = '';
+      this.password = '';
+      this.errorMessage = '';
     }
   }
 
@@ -41,8 +46,12 @@ struct Login {
 
       if (response.responseCode === 200) {
         if (data.message === 'Login success') {
+          promptAction.showToast({
+            message: '登录成功',
+            duration: 2000 // 显示2秒
+          });
           this.login = true;
-          router.replaceUrl({ url: 'pages/errorbook' });
+          router.replaceUrl({ url: 'pages/home' });
         } else if (data.message === 'Registered successfully') {
           promptAction.showToast({ message: '注册成功，请登录' });
         }
@@ -62,7 +71,7 @@ struct Login {
   }
   // 登录方法
   handleLogin(): void {
-    if (!this.user || !this.password) {
+    if (!this.username || !this.password) {
       this.errorMessage = '请输入用户名和密码';
       return;
     }
@@ -71,14 +80,14 @@ struct Login {
     this.errorMessage = '';
 
     this.httpRequest.request(
-      this.apiUrl+'/login',
+      apiusers.login,
       {
         method: http.RequestMethod.POST,
         header: {
           'Content-Type': 'application/json'
         },
         extraData: JSON.stringify({
-          username: this.user,
+          username: this.username,
           password: this.password
         })
       },
@@ -98,82 +107,123 @@ struct Login {
 
   build() {
     Column({ space: 15 }) {
-      Text(" ")
-        .height("10%")
-
-      Row() {
-        Text("欢迎来到")
-          .fontSize(35)
-          .fontWeight(FontWeight.Bold)
-          .margin(10)
-        Text("错题本")
-          .borderRadius(10)
-          .padding(5)
-          .backgroundColor("#0a59f7")
-          .fontColor(Color.White)
-          .fontSize(35)
-          .fontWeight(FontWeight.Bold)
+      Column(){
+        //占位
       }
-      .width("100%")
-      .justifyContent(FlexAlign.Start)
-
-      TextInput({ placeholder: '输入账号', text: $$this.user })
-        .borderRadius(10)
-        .margin({ left: 10, right: 10 })
-        .onChange((value: string) => {
-          this.user = value;
-        })
-
-      TextInput({ placeholder: '输入密码', text: $$this.password })
-        .borderRadius(10)
-        .margin({ left: 10, right: 10 })
-        .type(InputType.Password)
-        .onChange((value: string) => {
-          this.password = value;
-        })
-
-      if (this.errorMessage) {
-        Text(this.errorMessage)
-          .fontColor(Color.Red)
-          .margin(10)
-      }
-
-      Row() {
-        Button('登录')
-          .margin(5)
-          .type(ButtonType.Normal)
-          .borderRadius(10)
-          .height(40)
-          .width("45%")
-          .onClick(() => {
-            this.handleLogin();
+      .height('10%')
+      Column() {
+        Row() {
+          Text("欢迎来到")
+            .fontSize(35)
+            .fontWeight(FontWeight.Bold)
+            .margin(10)
+          Text("错题本")
+            .borderRadius(10)
+            .padding(5)
+            .backgroundColor("#0a59f7")
+            .fontColor(Color.White)
+            .fontSize(35)
+            .fontWeight(FontWeight.Bold)
+        }
+        .margin(20)
+        .width("100%")
+        .justifyContent(FlexAlign.Center)
+        Text('账号')
+          .margin({
+            left:30,
+            bottom:10
           })
-          .enabled(!this.isLoading)
-
-        Button('注册')
-          .borderColor("#0a59f7")
-          .borderWidth(2)
-          .fontColor("#0a59f7")
+          .alignSelf(ItemAlign.Start)
+          .fontSize(20)
+          .fontWeight(FontWeight.Bold)
+        TextInput({ placeholder: '输入账号', text: $$this.username })
           .backgroundColor(Color.White)
-          .margin(5)
-          .type(ButtonType.Normal)
           .borderRadius(10)
-          .height(40)
-          .width("45%")
-          .onClick(() => {
-            this.navigateToRegister();
+          .margin({
+            bottom:30,
+            left:25,
+            right:25
           })
-          .enabled(!this.isLoading)
-      }
-      .justifyContent(FlexAlign.Center)
-      .width("100%")
+          .onChange((value: string) => {
+            this.username = value;
+          })
+        Text('密码')
+          .margin({
+            left:30,
+            bottom:10
+          })
+          .alignSelf(ItemAlign.Start)
+          .fontSize(20)
+          .fontWeight(FontWeight.Bold)
+        TextInput({ placeholder: '输入密码', text: $$this.password })
+          .backgroundColor(Color.White)
+          .borderRadius(10)
+          .margin({
+            bottom:30,
+            left:25,
+            right:25
+          })
+          .type(InputType.Password)
+          .onChange((value: string) => {
+            this.password = value;
+          })
+        if (this.errorMessage) {
+          Text(this.errorMessage)
+            .fontColor(Color.Red)
+            .margin(10)
+        }
+        Column() {
+          Row() {
+            Button('登录')//登录按钮
+              .fontSize(20)
+              .margin(5)
+              .type(ButtonType.Normal)
+              .borderRadius(20)
+              .width("40%")
+              .height(60)
+              .onClick(() => {
+                this.handleLogin(); // 仅发起登录请求，跳转逻辑交给handleResponse处理
+              })
+              .enabled(!this.isLoading)
+            Button('注册')//注册按钮
+              .fontSize(20)
+              .borderColor("#0a59f7")
+              .borderWidth(2)
+              .fontColor("#0a59f7")
+              .backgroundColor(Color.White)
+              .margin(5)
+              .type(ButtonType.Normal)
+              .borderRadius(20)
+              .height(60)
+              .width("40%")
+              .onClick(() => {
+                this.navigateToRegister();
+              })
+              .enabled(!this.isLoading)
+            if (this.isLoading) {
+              LoadingProgress()
+                .margin(10)
+            }
+          }
+          .justifyContent(FlexAlign.Center)
+          .width("100%")
+        }
+        .justifyContent(FlexAlign.SpaceEvenly)
+        .height('25%')
 
-      if (this.isLoading) {
-        LoadingProgress()
-          .margin(10)
       }
+      .borderRadius(20)
+      .margin(20)
+      .height('60%')
+      .backgroundColor("rgba(255, 255, 255, 0.7)")
+      Column(){
+        //占位
+      }
+      .height('30%')
     }
-    .backgroundImage($r('app.media.login_background'))
+    .justifyContent(FlexAlign.Center)
+    .backgroundImage($r('app.media.background03')) //背景图片
+    .backgroundImageSize(ImageSize.Cover)
     .backgroundImagePosition(Alignment.Center)
     .height('100%')
     .width('100%')
