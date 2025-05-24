@@ -1,4 +1,6 @@
-// common/config.ts
+/*
+ * 本文件用于存放与后端连接的所有接口信息
+*/
 const ipv4: string = '10.151.35.100';
 const port: string = '8989';
 const apiUrl = `http://${ipv4}:${port}/api`;
@@ -8,6 +10,7 @@ interface ApiUsers {
     register: string;
     userInfo: string;
 }
+//错题集接口
 interface ApiMistakeCollections {
     list: string;
     create: string;
@@ -16,6 +19,7 @@ interface ApiMistakeCollections {
     delete: string;
     questions: string;
 }
+// 具体的错题接口
 interface ApiMistakes {
     detail: string; // 获取错题详情
     create: string; // 创建错题
