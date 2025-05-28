@@ -38,9 +38,9 @@ export default class EntryAbility extends UIAbility {
                 await this.rdbStore.executeSql(`
           CREATE TABLE IF NOT EXISTS mistakes_collections (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
             name TEXT NOT NULL,
             description TEXT,
+            question_count INTEGER DEFAULT 0,
             created_at TEXT DEFAULT (datetime('now','localtime')),
             updated_at TEXT DEFAULT (datetime('now','localtime'))
           )
@@ -66,9 +66,9 @@ export default class EntryAbility extends UIAbility {
           )
         `);
                 await this.rdbStore.insert('mistakes_collections', {
-                    'user_id': 1,
                     'name': '默认错题集',
-                    'description': '系统自动创建的默认错题集'
+                    'description': '系统自动创建的默认错题集',
+                    'question_count': 0
                 });
                 // 标记已初始化
                 await prefs.put('db_initialized', true);

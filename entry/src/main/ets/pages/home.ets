@@ -10,22 +10,24 @@ const DB_CONFIG:StoreConfig = {
   encrypt: false
 };
 
-// 表结构定义
+// 在 home.txt 中修改表结构：
 const TABLE_SCHEMA = `
-CREATE TABLE IF NOT EXISTS mistake_sets (
+CREATE TABLE IF NOT EXISTS mistakes_collections (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  subject TEXT DEFAULT '',
-  create_time TEXT DEFAULT (datetime('now','localtime')),
-  question_count INTEGER DEFAULT 0
+  name TEXT NOT NULL,
+  description TEXT,
+  question_count INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now','localtime')),
+  updated_at TEXT DEFAULT (datetime('now','localtime'))
 )`;
 
 interface MistakeSet {
   id: number;
-  title: string;
-  subject: string;
-  create_time?: string;
+  name: string;
+  description: string;
   question_count?: number;
+  create_time?: string;
+  updated_at?: string;
 }
 
 @Entry
@@ -61,20 +63,21 @@ struct MistakeHome {
   private async loadMistakeSets() {
     this.isLoading = true;
     try {
-      const predicates = new relationalStore.RdbPredicates('mistake_sets');
+      const predicates = new relationalStore.RdbPredicates('mistakes_collections');
       const resultSet = await this.rdbStore.query(
         predicates,
-        ['id', 'title', 'subject', 'create_time', 'question_count']
+        ['id', 'name', 'description', 'question_count', 'created_at','updated_at']
       );
 
       this.mistakeSets = [];
       while (resultSet.goToNextRow()) {
         this.mistakeSets.push({
           id: resultSet.getLong(resultSet.getColumnIndex('id')),
-          title: resultSet.getString(resultSet.getColumnIndex('title')),
-          subject: resultSet.getString(resultSet.getColumnIndex('subject')),
-          create_time: resultSet.getString(resultSet.getColumnIndex('create_time')),
-          question_count: resultSet.getLong(resultSet.getColumnIndex('question_count'))
+          name: resultSet.getString(resultSet.getColumnIndex('name')),
+          description: resultSet.getString(resultSet.getColumnIndex('description')),
+          question_count: resultSet.getLong(resultSet.getColumnIndex('question_count')),
+          create_time: resultSet.getString(resultSet.getColumnIndex('created_at')),
+          updated_at:resultSet.getString(resultSet.getColumnIndex('updated_at'))
         });
       }
       resultSet.close();
@@ -95,16 +98,18 @@ struct MistakeHome {
 
     try {
       const valueBucket: ValuesBucket = {
-        'title': this.newTitle.substring(0, 100), // 限制长度
-        'subject': '',
+        'name': this.newTitle.substring(0, 100), // 限制长度
+        'description': '',
         'question_count': 0
       };
+      // 确保插入操作完成
+      await this.rdbStore.insert('mistakes_collections', valueBucket);
 
-      await this.rdbStore.insert('mistake_sets', valueBucket);
       PromptAction.showToast({ message: '添加成功' });
-
+      // 重置状态
       this.newTitle = '';
       this.showAddDialog = false;
+
       await this.loadMistakeSets();
     } catch (err) {
       console.error('添加失败:', err);
@@ -188,7 +193,7 @@ struct MistakeHome {
       ForEach(this.mistakeSets, (item: MistakeSet) => {
         GridItem() {
           Column({ space: 8 }) {
-            Text(item.title)
+            Text(item.name)
               .fontSize(18)
               .fontWeight(FontWeight.Medium)
               .maxLines(1)
@@ -216,7 +221,7 @@ struct MistakeHome {
               url: 'pages/errorbook',
               params: {
                 id: item.id.toString(),
-                title: item.title
+                name: item.name
               }
             });
           })

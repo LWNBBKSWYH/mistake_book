@@ -21,12 +21,12 @@ interface QuestionItem {
 }
 
 interface CollectionInfo {
-  title: string;
+  name: string;
   description: string;
   question_count: number;
 }
 interface RouterParams {
-  id?: string | number; // 根据实际情况调整类型
+  id?: string ; // 根据实际情况调整类型
   // 其他可能的参数...
 }
 @Entry
@@ -39,7 +39,7 @@ struct CollectionDetail {
   @State currentPage: number = 1;
   @State totalPages: number = 1;
   @State collectionInfo: CollectionInfo = {
-    title: '',
+    name: '',
     description: '',
     question_count: 0
   };
@@ -87,13 +87,14 @@ struct CollectionDetail {
 
       const resultSet = await this.rdbStore.query(
         predicates,
-        ['name', 'description']
+        ['id', 'name', 'description', 'question_count']
       );
 
-      if (resultSet.rowCount > 0 && resultSet.goToFirstRow()) {
+      if (resultSet.rowCount > 0 ) {
         if (resultSet.goToFirstRow()) {
-          this.collectionInfo.title = resultSet.getString(resultSet.getColumnIndex('name')) || '';
+          this.collectionInfo.name = resultSet.getString(resultSet.getColumnIndex('name')) || '';
           this.collectionInfo.description = resultSet.getString(resultSet.getColumnIndex('description')) || '';
+          this.collectionInfo.question_count = resultSet.getLong(resultSet.getColumnIndex('question_count'));
         }
       }else {
         console.warn(`未找到ID为${this.collectionId}的错题集`);
@@ -106,11 +107,8 @@ struct CollectionDetail {
       // 获取题目总数
       const countPredicates = new relationalStore.RdbPredicates('mistakes');
       countPredicates.equalTo('collection_id', parseInt(this.collectionId));
-      const countResult = await this.rdbStore.query(
-        countPredicates,
-        ['COUNT(*) AS count']  // 使用COUNT聚合函数并设置别名
-      );
-      this.collectionInfo.question_count = countResult.getLong(countResult.getColumnIndex('count'));
+
+      // 更新总页数
       this.totalPages = Math.ceil(this.collectionInfo.question_count / this.pageSize);
     } catch (err) {
       console.error('获取错题集信息失败详情:', JSON.stringify(err));
@@ -185,7 +183,7 @@ struct CollectionDetail {
     Column() {
       // 错题集信息卡片
       Column() {
-        Text(this.collectionInfo.title)
+        Text(this.collectionInfo.name)
           .fontSize(20)
           .fontWeight(FontWeight.Bold)
           .margin({ bottom: 8 })

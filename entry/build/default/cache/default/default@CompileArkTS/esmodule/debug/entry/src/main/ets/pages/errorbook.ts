@@ -33,12 +33,12 @@ interface QuestionItem {
     islike?: number;
 }
 interface CollectionInfo {
-    title: string;
+    name: string;
     description: string;
     question_count: number;
 }
 interface RouterParams {
-    id?: string | number; // 根据实际情况调整类型
+    id?: string; // 根据实际情况调整类型
 }
 class CollectionDetail extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
@@ -53,7 +53,7 @@ class CollectionDetail extends ViewPU {
         this.__currentPage = new ObservedPropertySimplePU(1, this, "currentPage");
         this.__totalPages = new ObservedPropertySimplePU(1, this, "totalPages");
         this.__collectionInfo = new ObservedPropertyObjectPU({
-            title: '',
+            name: '',
             description: '',
             question_count: 0
         }, this, "collectionInfo");
@@ -198,11 +198,12 @@ class CollectionDetail extends ViewPU {
             console.log(`查询错题集信息，collectionId: ${this.collectionId}`);
             const predicates = new relationalStore.RdbPredicates('mistakes_collections');
             predicates.equalTo('id', parseInt(this.collectionId));
-            const resultSet = await this.rdbStore.query(predicates, ['name', 'description']);
-            if (resultSet.rowCount > 0 && resultSet.goToFirstRow()) {
+            const resultSet = await this.rdbStore.query(predicates, ['id', 'name', 'description', 'question_count']);
+            if (resultSet.rowCount > 0) {
                 if (resultSet.goToFirstRow()) {
-                    this.collectionInfo.title = resultSet.getString(resultSet.getColumnIndex('name')) || '';
+                    this.collectionInfo.name = resultSet.getString(resultSet.getColumnIndex('name')) || '';
                     this.collectionInfo.description = resultSet.getString(resultSet.getColumnIndex('description')) || '';
+                    this.collectionInfo.question_count = resultSet.getLong(resultSet.getColumnIndex('question_count'));
                 }
             }
             else {
@@ -215,9 +216,7 @@ class CollectionDetail extends ViewPU {
             // 获取题目总数
             const countPredicates = new relationalStore.RdbPredicates('mistakes');
             countPredicates.equalTo('collection_id', parseInt(this.collectionId));
-            const countResult = await this.rdbStore.query(countPredicates, ['COUNT(*) AS count'] // 使用COUNT聚合函数并设置别名
-            );
-            this.collectionInfo.question_count = countResult.getLong(countResult.getColumnIndex('count'));
+            // 更新总页数
             this.totalPages = Math.ceil(this.collectionInfo.question_count / this.pageSize);
         }
         catch (err) {
@@ -301,7 +300,7 @@ class CollectionDetail extends ViewPU {
             Column.margin({ bottom: 12 });
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(this.collectionInfo.title);
+            Text.create(this.collectionInfo.name);
             Text.fontSize(20);
             Text.fontWeight(FontWeight.Bold);
             Text.margin({ bottom: 8 });

@@ -20,21 +20,23 @@ const DB_CONFIG: StoreConfig = {
     securityLevel: relationalStore.SecurityLevel.S1,
     encrypt: false
 };
-// 表结构定义
+// 在 home.txt 中修改表结构：
 const TABLE_SCHEMA = `
-CREATE TABLE IF NOT EXISTS mistake_sets (
+CREATE TABLE IF NOT EXISTS mistakes_collections (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  subject TEXT DEFAULT '',
-  create_time TEXT DEFAULT (datetime('now','localtime')),
-  question_count INTEGER DEFAULT 0
+  name TEXT NOT NULL,
+  description TEXT,
+  question_count INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now','localtime')),
+  updated_at TEXT DEFAULT (datetime('now','localtime'))
 )`;
 interface MistakeSet {
     id: number;
-    title: string;
-    subject: string;
-    create_time?: string;
+    name: string;
+    description: string;
     question_count?: number;
+    create_time?: string;
+    updated_at?: string;
 }
 class MistakeHome extends ViewPU {
     constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
@@ -136,16 +138,17 @@ class MistakeHome extends ViewPU {
     private async loadMistakeSets() {
         this.isLoading = true;
         try {
-            const predicates = new relationalStore.RdbPredicates('mistake_sets');
-            const resultSet = await this.rdbStore.query(predicates, ['id', 'title', 'subject', 'create_time', 'question_count']);
+            const predicates = new relationalStore.RdbPredicates('mistakes_collections');
+            const resultSet = await this.rdbStore.query(predicates, ['id', 'name', 'description', 'question_count', 'created_at', 'updated_at']);
             this.mistakeSets = [];
             while (resultSet.goToNextRow()) {
                 this.mistakeSets.push({
                     id: resultSet.getLong(resultSet.getColumnIndex('id')),
-                    title: resultSet.getString(resultSet.getColumnIndex('title')),
-                    subject: resultSet.getString(resultSet.getColumnIndex('subject')),
-                    create_time: resultSet.getString(resultSet.getColumnIndex('create_time')),
-                    question_count: resultSet.getLong(resultSet.getColumnIndex('question_count'))
+                    name: resultSet.getString(resultSet.getColumnIndex('name')),
+                    description: resultSet.getString(resultSet.getColumnIndex('description')),
+                    question_count: resultSet.getLong(resultSet.getColumnIndex('question_count')),
+                    create_time: resultSet.getString(resultSet.getColumnIndex('created_at')),
+                    updated_at: resultSet.getString(resultSet.getColumnIndex('updated_at'))
                 });
             }
             resultSet.close();
@@ -166,12 +169,14 @@ class MistakeHome extends ViewPU {
         }
         try {
             const valueBucket: ValuesBucket = {
-                'title': this.newTitle.substring(0, 100),
-                'subject': '',
+                'name': this.newTitle.substring(0, 100),
+                'description': '',
                 'question_count': 0
             };
-            await this.rdbStore.insert('mistake_sets', valueBucket);
+            // 确保插入操作完成
+            await this.rdbStore.insert('mistakes_collections', valueBucket);
             PromptAction.showToast({ message: '添加成功' });
+            // 重置状态
             this.newTitle = '';
             this.showAddDialog = false;
             await this.loadMistakeSets();
@@ -328,13 +333,13 @@ class MistakeHome extends ViewPU {
                                     url: 'pages/errorbook',
                                     params: {
                                         id: item.id.toString(),
-                                        title: item.title
+                                        name: item.name
                                     }
                                 });
                             });
                         }, Column);
                         this.observeComponentCreation2((elmtId, isInitialRender) => {
-                            Text.create(item.title);
+                            Text.create(item.name);
                             Text.fontSize(18);
                             Text.fontWeight(FontWeight.Medium);
                             Text.maxLines(1);
