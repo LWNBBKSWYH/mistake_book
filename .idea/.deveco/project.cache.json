@@ -9,7 +9,7 @@
 		"BUNDLE_NAME":"com.example.errorbook",
 		"SELECT_BUILD_MODE":"",
 		"BUILD_PATH":{
-			"OUTPUT_PATH":"E:\\OpenHarmony_Project_code\\errorBook\\build\\outputs\\default"
+			"OUTPUT_PATH":"E:\\OpenHarmony_Project_code\\errorBook2\\build\\outputs\\default"
 		},
 		"SELECT_BUILD_PRODUCT":"default"
 	}

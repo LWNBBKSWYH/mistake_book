@@ -67,7 +67,7 @@
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.application.d.ts"
       ],
       "parent": [
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets"
       ],
       "error": false
     },
@@ -84,8 +84,8 @@
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.hiviewdfx.jsLeakWatcher.d.ts"
       ],
       "parent": [
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets"
       ],
       "error": false
     },
@@ -158,20 +158,55 @@
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.advanced.MultiNavigation.d.ets"
       ],
       "parent": [
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\login.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\register.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\login.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\register.ets"
       ],
       "error": false
     },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets": {
-      "mtimeMs": 1748078782842.3506,
+    "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.relationalStore.d.ts": {
+      "mtimeMs": 1743132881000,
+      "children": [
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.base.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\application\\BaseContext.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.sendableRelationalStore.d.ets"
+      ],
+      "parent": [
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.sendableRelationalStore.d.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\home.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\errorbook.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\createQuestion.ets"
+      ],
+      "error": false
+    },
+    "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.preferences.d.ts": {
+      "mtimeMs": 1743132881000,
+      "children": [
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.base.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\application\\BaseContext.d.ts"
+      ],
+      "parent": [
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\like.ets"
+      ],
+      "error": false
+    },
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets": {
+      "mtimeMs": 1748432263164.2788,
       "children": [
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.AbilityKit.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.PerformanceAnalysisKit.d.ts",
-        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.ArkUI.d.ts"
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.ArkUI.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.relationalStore.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.preferences.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.relationalStore.d.ts"
       ],
-      "parent": [],
+      "parent": [
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\home.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\errorbook.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\createQuestion.ets"
+      ],
       "error": false
     },
     "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.ability.ability.d.ts": {
@@ -1070,6 +1105,8 @@
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.advanced.FoldSplitContainer.d.ets",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.advanced.FullScreenLaunchComponent.d.ets",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.advanced.MultiNavigation.d.ets",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.relationalStore.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.preferences.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.file.cloudSync.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.file.fs.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.util.stream.d.ts",
@@ -1084,7 +1121,6 @@
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.net.socket.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.security.cert.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.security.cryptoFramework.d.ts",
-        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.preferences.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\graphics3d\\SceneResources.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\embedded_component.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\nav_destination.d.ts",
@@ -1221,6 +1257,7 @@
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.app.ability.common.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.rdb.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.PiPWindow.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.relationalStore.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.preferences.d.ts"
       ],
       "error": false
@@ -1468,11 +1505,11 @@
       "parent": [
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.UIContext.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.ArkUI.d.ts",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\errorbook.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\home.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\account.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\createQuestion.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\questionDetail.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\errorbook.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\home.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\account.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\createQuestion.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\questionDetail.ets",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\build-tools\\ets-loader\\declarations\\action_sheet.d.ts"
       ],
       "error": false
@@ -1485,12 +1522,12 @@
       "parent": [
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.arkui.UIContext.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.ArkUI.d.ts",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\errorbook.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\like.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\home.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\account.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\createQuestion.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\questionDetail.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\errorbook.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\like.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\home.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\account.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\createQuestion.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\questionDetail.ets"
       ],
       "error": false
     },
@@ -2361,7 +2398,9 @@
       "mtimeMs": 1743132881000,
       "children": [],
       "parent": [
-        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\application\\SendableContext.d.ets"
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\application\\SendableContext.d.ets",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.sendableRelationalStore.d.ets",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\arkts\\@arkts.collections.d.ets"
       ],
       "error": false
     },
@@ -3561,6 +3600,28 @@
       ],
       "error": false
     },
+    "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.sendableRelationalStore.d.ets": {
+      "mtimeMs": 1743132881000,
+      "children": [
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\arkts\\@arkts.collections.d.ets",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\arkts\\@arkts.lang.d.ets",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.relationalStore.d.ts"
+      ],
+      "parent": [
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.relationalStore.d.ts"
+      ],
+      "error": false
+    },
+    "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\arkts\\@arkts.collections.d.ets": {
+      "mtimeMs": 1743132881000,
+      "children": [
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\arkts\\@arkts.lang.d.ets"
+      ],
+      "parent": [
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.sendableRelationalStore.d.ets"
+      ],
+      "error": false
+    },
     "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.CoreFileKit.d.ts": {
       "mtimeMs": 1743132881000,
       "children": [
@@ -3581,11 +3642,11 @@
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.fileshare.d.ts"
       ],
       "parent": [
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets"
       ],
       "error": false
     },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets": {
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entrybackupability\\EntryBackupAbility.ets": {
       "mtimeMs": 1748078782842.3506,
       "children": [
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.PerformanceAnalysisKit.d.ts",
@@ -3775,37 +3836,35 @@
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.net.connection.d.ts"
       ],
       "parent": [
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\login.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\login.ets",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.net.connection.d.ts",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\errorbook.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\home.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\register.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\account.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\createQuestion.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\questionDetail.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\errorbook.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\register.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\account.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\createQuestion.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\questionDetail.ets"
       ],
       "error": false
     },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\utils\\net_config.ets": {
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\utils\\net_config.ets": {
       "mtimeMs": 1748075529677.652,
       "children": [],
       "parent": [
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\login.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\errorbook.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\home.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\register.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\createQuestion.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\questionDetail.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\login.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\errorbook.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\register.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\createQuestion.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\questionDetail.ets"
       ],
       "error": false
     },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\login.ets": {
-      "mtimeMs": 1748078782845.3557,
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\login.ets": {
+      "mtimeMs": 1748428198137.5105,
       "children": [
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.ArkUI.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.ArkUI.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.net.http.d.ts",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\utils\\net_config.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\utils\\net_config.ets"
       ],
       "parent": [],
       "error": false
@@ -3857,40 +3916,28 @@
       ],
       "error": false
     },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\utils\\ALL_Interface.ets": {
-      "mtimeMs": 1748075412323.188,
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\utils\\ALL_Interface.ets": {
+      "mtimeMs": 1748402959872.5693,
       "children": [],
       "parent": [
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\errorbook.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\createQuestion.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\questionDetail.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\errorbook.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\createQuestion.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\questionDetail.ets"
       ],
       "error": false
     },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\errorbook.ets": {
-      "mtimeMs": 1748078782843.355,
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\errorbook.ets": {
+      "mtimeMs": 1748432309140.0781,
       "children": [
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.router.d.ts",
-        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.net.http.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\utils\\net_config.ets",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\utils\\ALL_Interface.ets"
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.relationalStore.d.ts",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets"
       ],
       "parent": [],
       "error": false
     },
-    "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.preferences.d.ts": {
-      "mtimeMs": 1743132881000,
-      "children": [
-        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.base.d.ts",
-        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\application\\BaseContext.d.ts"
-      ],
-      "parent": [
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\like.ets"
-      ],
-      "error": false
-    },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\like.ets": {
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\like.ets": {
       "mtimeMs": 1748078782844.3547,
       "children": [
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.router.d.ts",
@@ -3899,30 +3946,43 @@
       "parent": [],
       "error": false
     },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\home.ets": {
-      "mtimeMs": 1748078782844.3547,
-      "children": [
-        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.router.d.ts",
-        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.net.http.d.ts",
-        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\utils\\net_config.ets"
+    "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.ValuesBucket.d.ts": {
+      "mtimeMs": 1743132881000,
+      "children": [],
+      "parent": [
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\home.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\createQuestion.ets"
       ],
-      "parent": [],
       "error": false
     },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\register.ets": {
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\home.ets": {
+      "mtimeMs": 1748428377228.3525,
+      "children": [
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.router.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.relationalStore.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.ValuesBucket.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets"
+      ],
+      "parent": [],
+      "error": true,
+      "errorCodes": [
+        -1
+      ]
+    },
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\register.ets": {
       "mtimeMs": 1748078782845.3557,
       "children": [
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.ArkUI.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\kits\\@kit.ArkUI.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.net.http.d.ts",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\utils\\net_config.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\utils\\net_config.ets"
       ],
       "parent": [],
       "error": false
     },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\account.ets": {
-      "mtimeMs": 1748078782843.355,
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\account.ets": {
+      "mtimeMs": 1748428196975.162,
       "children": [
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.router.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
@@ -3931,26 +3991,29 @@
       "parent": [],
       "error": false
     },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\createQuestion.ets": {
-      "mtimeMs": 1748078782843.355,
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\createQuestion.ets": {
+      "mtimeMs": 1748431162005.6223,
       "children": [
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\utils\\ALL_Interface.ets",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.router.d.ts",
-        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.net.http.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.relationalStore.d.ts",
+        "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.data.ValuesBucket.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\utils\\net_config.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\entryability\\EntryAbility.ets"
       ],
       "parent": [],
-      "error": false
+      "error": true,
+      "errorCodes": [
+        -1
+      ]
     },
-    "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\pages\\questionDetail.ets": {
+    "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\pages\\questionDetail.ets": {
       "mtimeMs": 1748078782845.3557,
       "children": [
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\utils\\ALL_Interface.ets",
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\utils\\ALL_Interface.ets",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.router.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.net.http.d.ts",
         "D:\\DevEco_Studio_5.0.0.11\\DevEco Studio\\sdk\\default\\openharmony\\ets\\api\\@ohos.promptAction.d.ts",
-        "E:\\OpenHarmony_Project_code\\errorBook\\entry\\src\\main\\ets\\utils\\net_config.ets"
+        "E:\\OpenHarmony_Project_code\\errorBook2\\entry\\src\\main\\ets\\utils\\net_config.ets"
       ],
       "parent": [],
       "error": false
