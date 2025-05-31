@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "C:\\Users\\86135\\.ohos\\config\\default_errorBook2_Q7MDH8rhSWI3umsTFttIMatBG9skyy-qwVJ6lfihxtQ=.cer",
+          "certpath": "C:\\Users\\wax\\.ohos\\config\\default_correction_notebook_5VxGGvLJ8tfG98EinJs1BJN7w8x1uuXuP9vz5ffsQls=.cer",
+          "storePassword": "0000001B7066F96D467F31EC3BB7E88421EEC1A857E45D5E97305C37EC62970BCEA856642EBA98659522C6",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BF3A455D7A1E38776238734299E1A74156573D1F98D1097EF429A93B7E33BA3D7AC6611954A989B",
-          "profile": "C:\\Users\\86135\\.ohos\\config\\default_errorBook2_Q7MDH8rhSWI3umsTFttIMatBG9skyy-qwVJ6lfihxtQ=.p7b",
+          "keyPassword": "0000001B3CB629F877C64B4EDE7CECA6B6A9D38867D807D73AE2FA06DC168A7F127947AB64BE5C715A0F18",
+          "profile": "C:\\Users\\wax\\.ohos\\config\\default_correction_notebook_5VxGGvLJ8tfG98EinJs1BJN7w8x1uuXuP9vz5ffsQls=.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\86135\\.ohos\\config\\default_errorBook2_Q7MDH8rhSWI3umsTFttIMatBG9skyy-qwVJ6lfihxtQ=.p12",
-          "storePassword": "0000001B00B7425ACDEE39ECBD6D5BAB3D530CAA90823FA4E5872917D5919020A191CBB363881BB50B67EF"
+          "storeFile": "C:\\Users\\wax\\.ohos\\config\\default_correction_notebook_5VxGGvLJ8tfG98EinJs1BJN7w8x1uuXuP9vz5ffsQls=.p12"
         }
       }
     ],

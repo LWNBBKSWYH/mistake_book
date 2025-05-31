@@ -14,6 +14,8 @@ export interface QuestionItem {
   analysis?: string;         // 题目解析
 }
 export interface RouterParams {
+  questionId: string;
+  collectionId: string;
   id: string;
 }
 //todo 用于记录选择题的选项,还需完善

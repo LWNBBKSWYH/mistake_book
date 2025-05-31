@@ -1,7 +1,7 @@
 import router from '@ohos.router';
 import PromptAction from '@ohos.promptAction';
 import relationalStore from '@ohos.data.relationalStore';
-import { DB_NAME } from '../entryability/EntryAbility'
+import { DB_NAME } from '../entryability/EntryAbility';
 
 interface QuestionItem {
   id: number;
@@ -29,6 +29,7 @@ interface RouterParams {
   id?: string ; // 根据实际情况调整类型
   // 其他可能的参数...
 }
+
 @Entry
 @Component
 struct CollectionDetail {
@@ -46,6 +47,11 @@ struct CollectionDetail {
   private rdbStore: relationalStore.RdbStore | null = null;
   private pageSize: number = 10;
 
+  async onPageShow(): Promise<void> {
+    await this.initDatabase();
+    await this.fetchCollectionInfo();
+    await this.fetchQuestions();
+  }
   async aboutToAppear() {
     const params = router.getParams() as RouterParams;
     this.collectionId = params?.id?.toString() || '';
@@ -54,9 +60,6 @@ struct CollectionDetail {
       PromptAction.showToast({ message: '缺少错题集ID参数' });
       return;
     }
-    await this.initDatabase();
-    await this.fetchCollectionInfo();
-    await this.fetchQuestions();
   }
 
   // 初始化数据库连接
@@ -118,6 +121,8 @@ struct CollectionDetail {
 
   // 获取错题列表
   private async fetchQuestions() {
+    console.log("开始获取错题")
+    console.log(`查询的错题集id，collectionId: ${this.collectionId}`);
     if (!this.rdbStore) {
       throw new Error('数据库未初始化');
     }
@@ -138,7 +143,7 @@ struct CollectionDetail {
       const columns = [
         'id', 'collection_id', 'subject', 'question_description',
         'question_type', 'question_answer', // 添加这个字段
-        'difficulty', 'wrong_times', 'created_at'
+        'difficulty', 'wrong_times', 'created_at','islike'
       ];
 
       const resultSet = await this.rdbStore.query(predicates, columns);
@@ -153,7 +158,9 @@ struct CollectionDetail {
           question_type: resultSet.getString(resultSet.getColumnIndex('question_type')),
           difficulty: resultSet.getLong(resultSet.getColumnIndex('difficulty')),
           wrong_times: resultSet.getLong(resultSet.getColumnIndex('wrong_times')),
-          created_at: resultSet.getString(resultSet.getColumnIndex('created_at'))
+          created_at: resultSet.getString(resultSet.getColumnIndex('created_at')),
+          question_answer: resultSet.getString(resultSet.getColumnIndex('question_answer')),
+          islike: resultSet.getLong(resultSet.getColumnIndex('islike'))
         });
       }
       resultSet.close();
@@ -268,6 +275,41 @@ struct CollectionDetail {
                     .fontColor('#FFA500')
                     .margin({ left: 8 })
                 }
+                /*if(question.islike){
+                  Image($r('app.media.ic_public_highlightsed'))
+                    .height(20)
+                    .width(20)
+                    .onClick(async () => {
+                      if (!this.rdbStore) return;
+
+                      try {
+                        await this.rdbStore.executeSql(
+                          `UPDATE mistakes SET islike = 0 WHERE id = ?`,
+                          [question.id]
+                        );
+                        question.islike=0
+                      } catch (err) {
+                        console.error('更新失败:', err);
+                      }
+                    })
+                }else{
+                  Image($r('app.media.ic_public_highlights'))
+                    .height(20)
+                    .width(20)
+                    .onClick(async () => {
+                      if (!this.rdbStore) return;
+
+                      try {
+                        await this.rdbStore.executeSql(
+                          `UPDATE mistakes SET islike = 1 WHERE id = ?`,
+                          [question.id]
+                        );
+                        question.islike=1
+                      } catch (err) {
+                        console.error('更新失败:', err);
+                      }
+                    })
+                }*/
               }
               .margin({ bottom: 8 })
 
@@ -301,10 +343,7 @@ struct CollectionDetail {
             .onClick(() => {
               router.pushUrl({
                 url: 'pages/questionDetail',
-                params: {
-                  id: question.id.toString(),
-                  collectionId: this.collectionId
-                }
+                params: { questionId: question.id.toString() }
               });
             })
           }
@@ -325,4 +364,5 @@ struct CollectionDetail {
     .width('100%')
     .height('100%')
   }
+
 }

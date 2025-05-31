@@ -38,15 +38,18 @@ struct MistakeHome {
   @State newTitle: string = '';
   @State showAddDialog: boolean = false;
   private rdbStore!: relationalStore.RdbStore;
-
-  async aboutToAppear() {
+  async onPageShow(): Promise<void> {
+    await this.initDatabase();
+    await this.loadMistakeSets();
+  }
+  /*async aboutToAppear() {
     try {
       await this.initDatabase();
       await this.loadMistakeSets();
     } catch (err) {
       console.error('初始化错误:', err);
     }
-  }
+  }*/
 
   // 初始化数据库连接
   private async initDatabase() {

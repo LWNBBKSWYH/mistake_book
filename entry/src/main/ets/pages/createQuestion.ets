@@ -20,7 +20,7 @@ interface QuestionItem {
   islike?: number;
 }
 interface RouterParams {
-  id?: string ; // 根据实际情况调整类型
+  collectionId?: string ; // 根据实际情况调整类型
   // 其他可能的参数...
 }
 @Entry
@@ -47,8 +47,8 @@ struct CreateQuestion {
 
   async aboutToAppear() {
     const params = router.getParams() as RouterParams;
-    this.formData.collection_id = parseInt(params.id || '0');
-
+    this.formData.collection_id = parseInt(params.collectionId || '0');
+    console.log(`接收到id=${this.formData.collection_id}`)
     try {
       await this.initDatabase();
     } catch (err) {
@@ -112,11 +112,17 @@ struct CreateQuestion {
       if (this.formData.tags) {
         valueBucket['tags'] = this.formData.tags;
       }
-
+      console.log('准备插入的数据:', JSON.stringify(valueBucket));
       // 插入数据
-      await this.rdbStore.insert('mistakes', valueBucket);
-
+      const newRowId=await this.rdbStore.insert('mistakes', valueBucket);
+      console.log('插入成功，新记录ID:', newRowId)
       PromptAction.showToast({ message: '错题添加成功' });
+      await this.rdbStore.executeSql(
+        `UPDATE mistakes_collections
+     SET question_count = question_count + 1
+     WHERE id = ?`,
+        [this.formData.collection_id]
+      );
       router.back();
     } catch (err) {
       console.error('添加错题失败:', err);

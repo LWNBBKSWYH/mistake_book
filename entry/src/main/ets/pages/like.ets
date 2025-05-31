@@ -1,6 +1,8 @@
 import router from '@ohos.router';
 import dataPreferences from '@ohos.data.preferences';
-
+import relationalStore from '@ohos.data.relationalStore';
+import { DB_NAME } from '../entryability/EntryAbility'
+import PromptAction from '@ohos.promptAction';
 class WrongQuestion {
   id: number;
   title: string;
@@ -20,12 +22,32 @@ class WrongQuestion {
     this.collectedDate = new Date().toLocaleDateString(); // 记录收藏日期
   }
 }
-
+interface QuestionItem {
+  id?: number;
+  collection_id: number;
+  subject: string;
+  question_description: string;
+  question_answer: string;
+  question_type: string;
+  options?: string;
+  analysis?: string;
+  tags?: string;
+  difficulty?: number;
+  wrong_times?: number;
+  created_at?: string;
+  updated_at?: string;
+  islike?: number;
+}
 @Entry
 @Component
 struct CollectionPage {
+  private rdbStore: relationalStore.RdbStore | null = null;
   private pref: dataPreferences.Preferences | null = null;
-  @State collectedQuestions: WrongQuestion[] = [
+  private pageSize: number = 10;
+  @State currentPage: number = 1;
+  @State collectionId: string = '';
+  @State collectedquestions: QuestionItem[] = [];
+  @State collectedQuestions2: WrongQuestion[] = [
     new WrongQuestion(1, "求函数f(x)=x³+2x的导数", "函数与导数", "导数运算", "第一节"),
     new WrongQuestion(2, "证明勾股定理a²+b²=c²", "平面几何", "三角形", "第二节"),
     new WrongQuestion(3, "解方程x²-5x+6=0", "代数", "一元二次方程", "第三节"),
@@ -37,9 +59,126 @@ struct CollectionPage {
   ];
   @State filteredQuestions: WrongQuestion[] = [];
   @State searchValue: string = '';
+  @State isLoading: boolean = false;
+  @State searchKeyword: string = '';
   @State searchHistory: string[] = [];
   searchController: SearchController = new SearchController();
+  async onPageShow(): Promise<void> {
+    await this.initDatabase();
+    await this.fetchQuestions();
+  }
+  // 获取收藏错题列表
+  private async fetchQuestions() {
+    console.log("开始获取收藏错题")
+    if (!this.rdbStore) {
+      throw new Error('数据库未初始化');
+    }
+    this.isLoading = true;
+    try {
+      const predicates = new relationalStore.RdbPredicates('mistakes');
+      predicates.equalTo('islike', 1);
+      console.log("查询try");
+      // 如果有搜索关键词
+      if (this.searchKeyword) {
+        predicates.contains('question_description', this.searchKeyword);
+      }
 
+      // 设置分页
+      predicates.offsetAs((this.currentPage - 1) * this.pageSize);
+      predicates.limitAs(this.pageSize);
+
+      const columns = [
+        'id', 'collection_id', 'subject', 'question_description',
+        'question_type', 'question_answer', // 添加这个字段
+        'difficulty', 'wrong_times', 'created_at'
+      ];
+
+      const resultSet = await this.rdbStore.query(predicates, columns);
+      console.log("查询成功");
+      /*const updatedQuestion = await this.getQuestionBylike();
+      if (updatedQuestion) {
+        console.log('收藏问题数据:', JSON.stringify(updatedQuestion, null, 2));
+      } else {
+        console.warn('未找到收藏的问题数据');
+      }*/
+      this.collectedquestions = [];
+      while (resultSet.goToNextRow()) {
+        this.collectedquestions.push({
+          id: resultSet.getLong(resultSet.getColumnIndex('id')),
+          collection_id: parseInt(this.collectionId),
+          subject: resultSet.getString(resultSet.getColumnIndex('subject')),
+          question_description: resultSet.getString(resultSet.getColumnIndex('question_description')),
+          question_type: resultSet.getString(resultSet.getColumnIndex('question_type')),
+          difficulty: resultSet.getLong(resultSet.getColumnIndex('difficulty')),
+          wrong_times: resultSet.getLong(resultSet.getColumnIndex('wrong_times')),
+          created_at: resultSet.getString(resultSet.getColumnIndex('created_at')),
+          question_answer: resultSet.getString(resultSet.getColumnIndex('question_answer'))
+        });
+      }
+      resultSet.close();
+    } catch (err) {
+      console.error('获取错题列表失败:', err);
+      PromptAction.showToast({ message: '获取列表失败' });
+    } finally {
+      this.isLoading = false;
+    }
+  }
+  // 初始化数据库连接
+  private async initDatabase() {
+    try {
+      this.rdbStore = await relationalStore.getRdbStore(
+        getContext(this),
+        {
+          name: DB_NAME,
+          securityLevel: relationalStore.SecurityLevel.S1
+        }
+      );
+    } catch (err) {
+      console.error('数据库初始化失败:', err);
+      PromptAction.showToast({ message: '数据库初始化失败' });
+    }
+  }
+  private async getQuestionBylike(): Promise<QuestionItem | null> {
+    if (!this.rdbStore) {
+      console.error('数据库未初始化');
+      return null;
+    }
+
+    try {
+      const predicates = new relationalStore.RdbPredicates('mistakes');
+      predicates.equalTo('islike', 1);
+
+      const resultSet = await this.rdbStore.query(predicates, [
+        'id', 'collection_id', 'subject', 'question_description',
+        'question_answer', 'question_type', 'options',
+        'analysis', 'tags', 'difficulty', 'wrong_times',
+        'created_at', 'updated_at', 'islike'
+      ]);
+
+      if (resultSet.goToFirstRow()) {
+        return {
+          id: resultSet.getLong(resultSet.getColumnIndex('id')),
+          collection_id: resultSet.getLong(resultSet.getColumnIndex('collection_id')),
+          subject: resultSet.getString(resultSet.getColumnIndex('subject')),
+          question_description: resultSet.getString(resultSet.getColumnIndex('question_description')),
+          question_answer: resultSet.getString(resultSet.getColumnIndex('question_answer')),
+          question_type: resultSet.getString(resultSet.getColumnIndex('question_type')),
+          options: resultSet.getString(resultSet.getColumnIndex('options')),
+          analysis: resultSet.getString(resultSet.getColumnIndex('analysis')),
+          tags: resultSet.getString(resultSet.getColumnIndex('tags')),
+          difficulty: resultSet.getLong(resultSet.getColumnIndex('difficulty')),
+          wrong_times: resultSet.getLong(resultSet.getColumnIndex('wrong_times')),
+          created_at: resultSet.getString(resultSet.getColumnIndex('created_at')),
+          updated_at: resultSet.getString(resultSet.getColumnIndex('updated_at')),
+          islike: resultSet.getLong(resultSet.getColumnIndex('islike'))
+        };
+      }
+      return null;
+    } catch (err) {
+      console.error('查询失败:', err);
+      return null;
+    }
+  }
   async aboutToAppear() {
     try {
       this.pref = await dataPreferences.getPreferences(getContext(this), 'collectionPref');
@@ -48,7 +187,7 @@ struct CollectionPage {
       // 修改1：只有非空数据时才覆盖预设
       if (savedData !== '[]') {
         const parsedQuestions = JSON.parse(String(savedData)) as Partial<WrongQuestion>[];
-        this.collectedQuestions = parsedQuestions
+        this.collectedQuestions2 = parsedQuestions
           .filter(q => q.id && q.title) // 放宽过滤条件
           .map(q => new WrongQuestion(
             Number(q.id),
@@ -59,16 +198,16 @@ struct CollectionPage {
           ));
       }
 
-      this.filteredQuestions = [...this.collectedQuestions];
+      this.filteredQuestions = [...this.collectedQuestions2];
       // 加载搜索历史
       const history = await this.pref.get('searchHistory', '[]');
       this.searchHistory = (JSON.parse(String(history)) as string[]).filter(Boolean);
     } catch (err) {
       console.error('初始化失败:', err);
-      this.collectedQuestions = [
+      this.collectedQuestions2 = [
         new WrongQuestion(1, "求函数f(x)=x³+2x的导数", "函数与导数", "导数运算", "第一节")
       ];
-      this.filteredQuestions = [...this.collectedQuestions];
+      this.filteredQuestions = [...this.collectedQuestions2];
     }
   }
 
@@ -76,7 +215,7 @@ struct CollectionPage {
   private async saveData() {
     if (this.pref) {
       try {
-        await this.pref.put('collectedQuestions', JSON.stringify(this.collectedQuestions));
+        await this.pref.put('collectedQuestions', JSON.stringify(this.collectedQuestions2));
         await this.pref.put('searchHistory', JSON.stringify(this.searchHistory));
         await this.pref.flush();
       } catch (e) {
@@ -98,7 +237,7 @@ struct CollectionPage {
     this.searchValue = value;
 
     if (!value) {
-      this.filteredQuestions = [...this.collectedQuestions];
+      this.filteredQuestions = [...this.collectedQuestions2];
     } else {
       // 更新搜索历史
       if (!this.searchHistory.includes(value)) {
@@ -108,7 +247,7 @@ struct CollectionPage {
 
       // 安全搜索
       const lowerValue = value.toLowerCase();
-      this.filteredQuestions = this.collectedQuestions.filter(item =>
+      this.filteredQuestions = this.collectedQuestions2.filter(item =>
       item.title.toLowerCase().includes(lowerValue) ||
       item.subject.toLowerCase().includes(lowerValue) ||
       item.chapter.toLowerCase().includes(lowerValue)
@@ -117,7 +256,7 @@ struct CollectionPage {
   }
 
   private async removeCollection(item: WrongQuestion) {
-    this.collectedQuestions = this.collectedQuestions.filter(q => q.id !== item.id);
+    this.collectedQuestions2 = this.collectedQuestions2.filter(q => q.id !== item.id);
     this.searchQuestions(this.searchValue);
     await this.saveData();
   }
@@ -223,7 +362,7 @@ struct CollectionPage {
 
       // 收藏列表
       List({ space: 10 }) {
-        if (this.filteredQuestions.length === 0) {
+        if (this.collectedquestions.length === 0) {
           ListItem() {
             Column() {
               Image($r("app.media.ic_public_highlightsed"))
@@ -239,11 +378,11 @@ struct CollectionPage {
             .justifyContent(FlexAlign.Center)
           }
         } else {
-          ForEach(this.filteredQuestions, (item: WrongQuestion) => {
+          ForEach(this.collectedquestions, (item: QuestionItem) => {
             ListItem() {
               Column({ space: 8 }) {
                 Row() {
-                  Text(item.title)
+                  Text(item.question_description)
                     .fontSize(18)
                     .fontWeight(FontWeight.Medium)
                     .maxLines(1)
@@ -253,7 +392,19 @@ struct CollectionPage {
 
                   Image($r("app.media.ic_public_delete"))
                     .width(25)
-                    .onClick(() => this.removeCollection(item));
+                    .onClick(async () => {
+                      if (!this.rdbStore) return;
+
+                      try {
+                        await this.rdbStore.executeSql(
+                          `UPDATE mistakes SET islike = 0 WHERE id = ?`,
+                          [item.id]
+                        );
+                        console.log('更新成功，id:', item.id);
+                      } catch (err) {
+                        console.error('更新失败:', err);
+                      }
+                    });
                 }
                 .width('100%')
 
@@ -262,18 +413,18 @@ struct CollectionPage {
                     .fontSize(14)
                     .fontColor('#666666');
 
-                  Text(`章节：${item.chapter}`)
+                  /*Text(`章节：${item.}`)
                     .fontSize(14)
-                    .fontColor('#666666');
+                    .fontColor('#666666');*/
                 }
                 .width('100%')
                 .margin({ top: 5 })
 
-                Text(`收藏于：${item.collectedDate}`)
+                /*Text(`收藏于：${item.}`)
                   .fontSize(12)
                   .fontColor('#999999')
                   .margin({ top: 5 })
-                  .alignSelf(ItemAlign.End)
+                  .alignSelf(ItemAlign.End)*/
               }
               .padding(15)
               .width('100%')
@@ -290,7 +441,7 @@ struct CollectionPage {
                 });
               });
             }
-          }, (item: WrongQuestion) => String(item.id))
+          }, (item: QuestionItem) => String(item.id))
         }
       }
       .width('100%')
