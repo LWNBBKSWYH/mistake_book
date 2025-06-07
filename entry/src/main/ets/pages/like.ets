@@ -48,14 +48,6 @@ struct CollectionPage {
   @State collectionId: string = '';
   @State collectedquestions: QuestionItem[] = [];
   @State collectedQuestions2: WrongQuestion[] = [
-    new WrongQuestion(1, "求函数f(x)=x³+2x的导数", "函数与导数", "导数运算", "第一节"),
-    new WrongQuestion(2, "证明勾股定理a²+b²=c²", "平面几何", "三角形", "第二节"),
-    new WrongQuestion(3, "解方程x²-5x+6=0", "代数", "一元二次方程", "第三节"),
-    new WrongQuestion(4, "计算sin(π/3)的值", "三角函数", "特殊角函数值", "第一节"),
-    new WrongQuestion(5, "求椭圆x²/4 + y²/9 = 1的面积", "圆锥曲线", "椭圆", "第四节"),
-    new WrongQuestion(6, "排列组合：5人排队的可能性", "概率统计", "排列组合", "第二节"),
-    new WrongQuestion(7, "求极限lim(x→0)(sinx/x)", "微积分", "极限", "第三节"),
-    new WrongQuestion(8, "向量a=(1,2)和b=(3,4)的点积", "向量代数", "向量运算", "第一节")
   ];
   @State filteredQuestions: WrongQuestion[] = [];
   @State searchValue: string = '';
@@ -179,6 +171,7 @@ struct CollectionPage {
       return null;
     }
   }
+
   async aboutToAppear() {
     try {
       this.pref = await dataPreferences.getPreferences(getContext(this), 'collectionPref');
@@ -204,9 +197,6 @@ struct CollectionPage {
       this.searchHistory = (JSON.parse(String(history)) as string[]).filter(Boolean);
     } catch (err) {
       console.error('初始化失败:', err);
-      this.collectedQuestions2 = [
-        new WrongQuestion(1, "求函数f(x)=x³+2x的导数", "函数与导数", "导数运算", "第一节")
-      ];
       this.filteredQuestions = [...this.collectedQuestions2];
     }
   }

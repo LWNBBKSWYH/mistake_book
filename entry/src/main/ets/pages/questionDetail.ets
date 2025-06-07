@@ -5,6 +5,8 @@ import { ValuesBucket } from '@ohos.data.ValuesBucket';
 import PromptAction from '@ohos.promptAction';
 import { DB_NAME } from '../entryability/EntryAbility';
 import {apimistakes} from '../utils/net_config'
+import { ColumnModifier } from '@kit.ArkUI';
+
 interface QuestionItem {
   id?: number;
   collection_id: number;
@@ -74,7 +76,7 @@ struct QuestionDetail {
       const columns = [
         'id', 'collection_id', 'subject', 'question_description',
         'question_type', 'question_answer', // 添加这个字段
-        'difficulty', 'wrong_times', 'created_at','islike'
+        'difficulty', 'wrong_times', 'created_at','islike','analysis'
       ];
 
       const resultSet = await this.rdbStore.query(predicates, columns);
@@ -82,6 +84,11 @@ struct QuestionDetail {
       while (resultSet.goToNextRow()) {
         this.question.question_description=resultSet.getString(resultSet.getColumnIndex('question_description'))
         this.question.islike=resultSet.getLong(resultSet.getColumnIndex('islike'))
+        this.question.subject = resultSet.getString(resultSet.getColumnIndex('subject'))
+        this.question.question_description= resultSet.getString(resultSet.getColumnIndex('question_description'))
+        this.question.question_type= resultSet.getString(resultSet.getColumnIndex('question_type'))
+        this.question.analysis= resultSet.getString(resultSet.getColumnIndex('analysis'))
+        this.question.question_answer= resultSet.getString(resultSet.getColumnIndex('question_answer'))
       }
       console.log(
         `ID: ${this.question.id}, ` +
@@ -145,76 +152,113 @@ struct QuestionDetail {
           .width(50)
           .height(50)
       } else {
-        // 题目详情展示
-        Text(this.question.question_description)
-          .fontSize(18)
-          .margin({ bottom: 16 })
+        Row(){
+          Image($r('app.media.ic_public_arrow_left_filled'))
+            .onClick(()=>{
+              router.back()
+            })
+            .width('10%')
+          Blank()
+            .width('80%')
+          if(this.question.islike){
+            Image($r('app.media.ic_public_highlightsed'))
+              .height(25)
+              .width(25)
+              .fillColor('#FFA500')
+              .onClick(async () => {
+                if (!this.rdbStore) return;
 
+                try {
+                  await this.rdbStore.executeSql(
+                    `UPDATE mistakes SET islike = 0 WHERE id = ?`,
+                    [this.question_id]
+                  );
+                  console.log('更新成功，id:', this.question_id);
+                  this.question.islike=0
+                  const updatedQuestion = await this.getQuestionById(this.question_id);
+                  if (updatedQuestion) {
+                    console.log('更新后的问题数据:', JSON.stringify(updatedQuestion, null, 2));
+                  } else {
+                    console.warn('未找到更新后的问题数据');
+                  }
+                } catch (err) {
+                  console.error('更新失败:', err);
+                }
+              })
+          }else{
+            Image($r('app.media.ic_public_highlights'))
+              .height(25)
+              .width(25)
+              .onClick(async () => {
+                if (!this.rdbStore) return;
+
+                try {
+                  await this.rdbStore.executeSql(
+                    `UPDATE mistakes SET islike = 1 WHERE id = ?`,
+                    [this.question_id]
+                  );
+                  console.log('更新成功，id:', this.question_id);
+                  this.question.islike=1
+                  const updatedQuestion = await this.getQuestionById(this.question_id);
+                  if (updatedQuestion) {
+                    console.log('更新后的问题数据:', JSON.stringify(updatedQuestion, null, 2));
+                  } else {
+                    console.warn('未找到更新后的问题数据');
+                  }
+                } catch (err) {
+                  console.error('更新失败:', err);
+                }
+              })
+          }
+        }
+        .backgroundColor('#5A8BFF')
+        .height("5%")
+        .width("100%")
+        // 题目详情展示
+        Row() {
+          Text(this.question.question_description)
+            .fontSize(18)
+            .margin({ bottom: 16 })
+
+        }
+        .padding(10)
+        .justifyContent(FlexAlign.Start)
+        .width("100%")
         // 选择题选项展示
         if (this.question.question_type === '选择题' && this.question.options) {
           Column() {
-
+            Text(this.question.options)
+              .fontSize(18)
+              .margin({ bottom: 16 })
           }
         }
-        if(this.question.islike){
-          Image($r('app.media.ic_public_highlightsed'))
-            .height(20)
-            .width(20)
-            .onClick(async () => {
-              if (!this.rdbStore) return;
-
-              try {
-                await this.rdbStore.executeSql(
-                  `UPDATE mistakes SET islike = 0 WHERE id = ?`,
-                  [this.question_id]
-                );
-                console.log('更新成功，id:', this.question_id);
-                this.question.islike=0
-                const updatedQuestion = await this.getQuestionById(this.question_id);
-                if (updatedQuestion) {
-                  console.log('更新后的问题数据:', JSON.stringify(updatedQuestion, null, 2));
-                } else {
-                  console.warn('未找到更新后的问题数据');
-                }
-              } catch (err) {
-                console.error('更新失败:', err);
-              }
-            })
-        }else{
-          Image($r('app.media.ic_public_highlights'))
-            .height(20)
-            .width(20)
-            .onClick(async () => {
-              if (!this.rdbStore) return;
-
-              try {
-                await this.rdbStore.executeSql(
-                  `UPDATE mistakes SET islike = 1 WHERE id = ?`,
-                  [this.question_id]
-                );
-                console.log('更新成功，id:', this.question_id);
-                this.question.islike=1
-                const updatedQuestion = await this.getQuestionById(this.question_id);
-                if (updatedQuestion) {
-                  console.log('更新后的问题数据:', JSON.stringify(updatedQuestion, null, 2));
-                } else {
-                  console.warn('未找到更新后的问题数据');
-                }
-              } catch (err) {
-                console.error('更新失败:', err);
-              }
-            })
-        }
         // 答案解析
-        if (this.question.analysis) {
-          Text(`解析: ${this.question.analysis}`)
-            .fontSize(14)
-            .fontColor('#666')
-            .margin({ top: 16 })
-        }
+          Column() {
+            Text(`解析:`)
+              .fontSize(14)
+              .fontColor('#FFA500')
+              .margin(16)
+              .fontWeight(FontWeight.Bold)
+            if (this.question.analysis) {
+              Text(`分析: ${this.question.analysis}`)
+                .fontSize(14)
+                .margin(16)
+            }
+            if (this.question.question_answer) {
+              Text(`正解: ${this.question.question_answer}`)
+                .fontSize(14)
+                .margin(16)
+            }
+
+          }
+          .width('100%')
+          .borderRadius(10)
+          .borderColor('#FFA500')
+          .borderWidth(2)
+          .alignItems(HorizontalAlign.Start)
       }
     }
-    .padding(16)
+    //.padding(16)
     .width('100%')
     .height('100%')
   }

@@ -71,11 +71,7 @@ export default class EntryAbility extends UIAbility {
             FOREIGN KEY (collection_id) REFERENCES mistakes_collections(id) ON DELETE CASCADE
           )
         `);
-        await this.rdbStore.insert('mistakes_collections', {
-          'name': '默认错题集',
-          'description': '系统自动创建的默认错题集',
-          'question_count': 0
-        });
+
         // 标记已初始化
         await prefs.put('db_initialized', true);
         await prefs.flush();

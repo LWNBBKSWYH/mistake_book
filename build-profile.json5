@@ -6,9 +6,9 @@
         "type": "HarmonyOS",
         "material": {
           "certpath": "C:\\Users\\wax\\.ohos\\config\\default_correction_notebook_5VxGGvLJ8tfG98EinJs1BJN7w8x1uuXuP9vz5ffsQls=.cer",
-          "storePassword": "0000001B7066F96D467F31EC3BB7E88421EEC1A857E45D5E97305C37EC62970BCEA856642EBA98659522C6",
+          "storePassword": "000000193E96D7CD6CB14DD2EB4565C1AF8746A8B75B16819E3D9D2CA74C9217F9B3CA38781163BF0D",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B3CB629F877C64B4EDE7CECA6B6A9D38867D807D73AE2FA06DC168A7F127947AB64BE5C715A0F18",
+          "keyPassword": "00000019C75433074BB86F6DE933D5BDBDA049D04E03DAFA51197C370ADD7DFFA53833FDAAE84C544F",
           "profile": "C:\\Users\\wax\\.ohos\\config\\default_correction_notebook_5VxGGvLJ8tfG98EinJs1BJN7w8x1uuXuP9vz5ffsQls=.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "C:\\Users\\wax\\.ohos\\config\\default_correction_notebook_5VxGGvLJ8tfG98EinJs1BJN7w8x1uuXuP9vz5ffsQls=.p12"
