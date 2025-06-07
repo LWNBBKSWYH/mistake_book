@@ -211,16 +211,30 @@ struct QuestionDetail {
               })
           }
         }
+        .margin(10)
         .backgroundColor('#5A8BFF')
         .height("5%")
         .width("100%")
         // 题目详情展示
         Row() {
+          Text(`题型:${this.question.question_type}`)
+            .fontSize(18)
+        }
+        .alignSelf(ItemAlign.Start)
+        .justifyContent(FlexAlign.Start)
+        .alignItems(VerticalAlign.Center)
+        .height('5%')
+        .width("33%")
+        .borderRadius(10)
+        .borderColor('#5A8BFF')
+        .borderWidth(2)
+        .padding(10)
+        Row() {
           Text(this.question.question_description)
             .fontSize(18)
             .margin({ bottom: 16 })
-
         }
+        .alignItems(VerticalAlign.Center)
         .padding(10)
         .justifyContent(FlexAlign.Start)
         .width("100%")
