@@ -11,6 +11,14 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },
+    {
+      "name": "read_imagevideo_reason",
+      "value": "文字识别模块"
+    },
+    {
+      "name": "media_location_reason",
+      "value": "媒体文件访问"
     }
   ]
 }

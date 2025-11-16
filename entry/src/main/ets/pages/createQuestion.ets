@@ -3,6 +3,14 @@ import relationalStore from '@ohos.data.relationalStore';
 import { ValuesBucket } from '@ohos.data.ValuesBucket';
 import PromptAction from '@ohos.promptAction';
 import { DB_NAME } from '../entryability/EntryAbility';
+import { textRecognition } from '@kit.CoreVisionKit';
+import { image } from '@kit.ImageKit';
+import { hilog } from '@kit.PerformanceAnalysisKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { fileIo } from '@kit.CoreFileKit';
+import { photoAccessHelper } from '@kit.MediaLibraryKit';
+import promptAction from '@ohos.promptAction';
+
 interface QuestionItem {
   id?: number;
   collection_id: number;
@@ -171,11 +179,27 @@ struct CreateQuestion {
       Scroll() {
         Column({ space: 16 }) {
           // 题目描述
-          Text('题目描述')
-            .fontSize(16)
-            .fontWeight(FontWeight.Medium)
-            .width('100%')
-            .textAlign(TextAlign.Start)
+          Row(){
+            Text('题目描述')
+              .fontSize(16)
+              .fontWeight(FontWeight.Medium)
+              .textAlign(TextAlign.Start)
+              .margin({
+                right:5
+              })
+            Button('拍照输入')
+              .fontSize(16)
+              .fontColor(Color.White)
+              .fontWeight(FontWeight.Medium)
+              .backgroundColor('#0A59F7')
+              .borderRadius(20)
+              .padding(5)
+              .onClick(() => {
+                this.startRecognition('描述');
+              })
+          }
+          .width('100%')
+          .justifyContent(FlexAlign.Start)
 
           TextInput({ placeholder: '请输入题目描述...', text: this.formData.question_description })
             .onChange((value: string) => {
@@ -188,11 +212,27 @@ struct CreateQuestion {
             .padding(12)
 
           // 题目答案
-          Text('题目答案')
-            .fontSize(16)
-            .fontWeight(FontWeight.Medium)
-            .width('100%')
-            .textAlign(TextAlign.Start)
+          Row(){
+            Text('题目答案')
+              .fontSize(16)
+              .fontWeight(FontWeight.Medium)
+              .textAlign(TextAlign.Start)
+              .margin({
+                right:5
+              })
+            Button('拍照输入')
+              .fontSize(16)
+              .fontColor(Color.White)
+              .fontWeight(FontWeight.Medium)
+              .backgroundColor('#0A59F7')
+              .borderRadius(20)
+              .padding(5)
+              .onClick(() => {
+                this.startRecognition('答案');
+              })
+          }
+          .width('100%')
+          .justifyContent(FlexAlign.Start)
 
           TextInput({ placeholder: '请输入题目答案...', text: this.formData.question_answer })
             .onChange((value: string) => {
@@ -272,11 +312,27 @@ struct CreateQuestion {
           })
 
           // 解析和标签（可选）
-          Text('题目解析（可选）')
-            .fontSize(16)
-            .fontWeight(FontWeight.Medium)
-            .width('100%')
-            .textAlign(TextAlign.Start)
+          Row(){
+            Text('题目解析（可选）')
+              .fontSize(16)
+              .fontWeight(FontWeight.Medium)
+              .textAlign(TextAlign.Start)
+              .margin({
+                right:5
+              })
+            Button('拍照输入')
+              .fontSize(16)
+              .fontColor(Color.White)
+              .fontWeight(FontWeight.Medium)
+              .backgroundColor('#0A59F7')
+              .borderRadius(20)
+              .padding(5)
+              .onClick(() => {
+                this.startRecognition('解析');
+              })
+          }
+          .width('100%')
+          .justifyContent(FlexAlign.Start)
 
           TextInput({ placeholder: '请输入题目解析...', text: this.formData.analysis || '' })
             .onChange((value: string) => {
@@ -402,7 +458,125 @@ struct CreateQuestion {
     .height('100%')
     .backgroundColor('#F5F7FA')
   }
+  // 开始识别函数
+  async startRecognition(textType: string) {
+    this.isLoading = true;
+    //this.recognitionResult = '正在识别中...';
 
+    try {
+      // 1. 初始化OCR服务
+      const initResult = await textRecognition.init();
+      if (!initResult) {
+        promptAction.showToast({
+          message: 'OCR服务初始化失败',
+          duration: 2000
+        });
+        this.isLoading = false;
+        return;
+      }
+
+      hilog.info(0x0000, 'OCRApp', 'OCR服务初始化成功');
+
+      // 2. 选择图片
+      const pixelMap = await this.selectImage();
+      if (!pixelMap) {
+        promptAction.showToast({
+          message: '图片选择失败或未选择图片',
+          duration: 2000
+        });
+        this.isLoading = false;
+        await textRecognition.release();
+        return;
+      }
+
+      // 3. 准备识别参数
+      let visionInfo: textRecognition.VisionInfo = {
+        pixelMap: pixelMap
+      };
+
+      let configuration: textRecognition.TextRecognitionConfiguration = {
+        isDirectionDetectionSupported: false // 关闭朝向检测以提升性能
+      };
+
+      // 4. 执行文字识别
+      const recognitionResult = await textRecognition.recognizeText(visionInfo, configuration);
+
+      // 5. 处理识别结果
+      if (recognitionResult && recognitionResult.value) {
+        if(textType=='描述') {
+          this.formData.question_description = recognitionResult.value;
+        }
+        if(textType=='答案') {
+          this.formData.question_answer = recognitionResult.value;
+        }
+        if(textType=='解析') {
+          this.formData.analysis = recognitionResult.value;
+        }
+        hilog.info(0x0000, 'OCRApp', `识别成功: ${recognitionResult.value}`);
+      } else {
+        promptAction.showToast({
+          message: '未识别到文字',
+          duration: 2000
+        });
+      }
+
+      // 6. 释放资源
+      pixelMap.release();
+
+    } catch (error) {
+      const err = error as BusinessError;
+      hilog.error(0x0000, 'OCRApp', `识别失败: Code: ${err.code}, Message: ${err.message}`);
+      this.formData.question_description = `识别失败: ${err.message}`;
+    } finally {
+      // 释放OCR服务
+      try {
+        await textRecognition.release();
+        hilog.info(0x0000, 'OCRApp', 'OCR服务已释放');
+      } catch (error) {
+        const err = error as BusinessError;
+        hilog.error(0x0000, 'OCRApp', `释放服务失败: ${err.message}`);
+      }
+
+      this.isLoading = false;
+    }
+  }
+  // 选择图片函数
+  async selectImage(): Promise<image.PixelMap | undefined> {
+    try {
+      let photoPicker: photoAccessHelper.PhotoViewPicker = new photoAccessHelper.PhotoViewPicker();
+
+      const selectResult = await photoPicker.select({
+        MIMEType: photoAccessHelper.PhotoViewMIMETypes.IMAGE_TYPE,
+        maxSelectNumber: 1
+      });
+
+      if (!selectResult.photoUris || selectResult.photoUris.length === 0) {
+        hilog.error(0x0000, 'OCRApp', '未选择图片');
+        return undefined;
+      }
+
+      const uri = selectResult.photoUris[0];
+      hilog.info(0x0000, 'OCRApp', `选择的图片URI: ${uri}`);
+
+      // 打开文件并创建ImageSource
+      const file = await fileIo.open(uri, fileIo.OpenMode.READ_ONLY);
+      const imageSource = image.createImageSource(file.fd);
+
+      // 创建PixelMap
+      const pixelMap = await imageSource.createPixelMap();
+
+      // 释放资源
+      await fileIo.close(file);
+      imageSource.release();
+
+      return pixelMap;
+
+    } catch (error) {
+      const err = error as BusinessError;
+      hilog.error(0x0000, 'OCRApp', `选择图片失败: Code: ${err.code}, Message: ${err.message}`);
+      return undefined;
+    }
+  }
   // 获取难度文本
   private getDifficultyText(level: number): string {
     const stars = '★'.repeat(level);

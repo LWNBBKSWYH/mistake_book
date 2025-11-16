@@ -1,10 +1,5 @@
 {
   "module": {
-    "requestPermissions": [
-      {
-        "name": "ohos.permission.INTERNET"    //申请网络权限
-      }
-    ],
     "name": "entry",
     "type": "entry",
     "description": "$string:module_desc",
@@ -37,6 +32,31 @@
         ]
       }
     ],
+    "requestPermissions": [
+      {
+        "name": "ohos.permission.INTERNET"    //申请网络权限
+      },
+      {
+        "name": "ohos.permission.READ_IMAGEVIDEO",
+        "reason": "$string:read_imagevideo_reason",
+        "usedScene": {
+          "abilities": [
+            "EntryAbility"
+          ],
+          "when": "always"
+        }
+      },
+      {
+        "name": "ohos.permission.MEDIA_LOCATION",
+        "reason": "$string:media_location_reason",
+        "usedScene": {
+          "abilities": [
+            "EntryAbility"
+          ],
+          "when": "always"
+        }
+      }
+    ],
     "extensionAbilities": [
       {
         "name": "EntryBackupAbility",
@@ -50,7 +70,7 @@
           }
         ],
       }
-    ],
+    ]
 
   }
 }
